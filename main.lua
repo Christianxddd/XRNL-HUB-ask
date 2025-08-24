@@ -137,39 +137,6 @@ FuncTab:CreateSlider({
       end
    end,
 })
--- Plataforma Caminante (crea una debajo al caminar y elimina la anterior)
-FuncTab:CreateToggle({
-    Name = "Plataforma Caminante",
-    CurrentValue = false,
-    Flag = "WalkingPlatform",
-    Callback = function(active)
-        local RunService = game:GetService("RunService")
-        local player = game.Players.LocalPlayer
-        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-        local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-
-        if not humanoid or not hrp then return end
-
-        _G.XRNL_WalkPlatformActive = active
-        if not active then
-            if _G.XRNL_WalkPlatformLoop then 
-                _G.XRNL_WalkPlatformLoop:Disconnect() 
-                _G.XRNL_WalkPlatformLoop = nil 
-            end
-            return
-        end
-
-        local currentPlatform
-
-        _G.XRNL_WalkPlatformLoop = RunService.RenderStepped:Connect(function()
-            if not _G.XRNL_WalkPlatformActive then return end
-            if humanoid.MoveDirection.Magnitude > 0 then
-                -- Borrar plataforma anterior
-                if currentPlatform and currentPlatform.Parent then
-                    currentPlatform:Destroy()
-                end
-                -- Crear nueva plataforma
-                local p = Instance.new("Part")
 -- Settings Tab
 local SettingsTab = Window:CreateTab("Settings", nil)
 local SetSection = SettingsTab:CreateSection("Ajustes de Tema / UI")
