@@ -420,6 +420,50 @@ crearBoton("Kill Aura (Sheriff/Murder)", mm2Frame, function()
         end
     end)
 end)
+-- 📌 Sección de Créditos
+local creditosFrame = Instance.new("Frame")
+creditosFrame.Name = "CreditosFrame"
+creditosFrame.Size = UDim2.new(1, 0, 1, 0)
+creditosFrame.BackgroundTransparency = 1
+creditosFrame.Visible = false
+creditosFrame.Parent = panelFrame
+
+-- Título
+local title = Instance.new("TextLabel")
+title.Text = "✨ Créditos ✨"
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Position = UDim2.new(0, 0, 0, 10)
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.TextSize = 22
+title.Font = Enum.Font.SourceSansBold
+title.BackgroundTransparency = 1
+title.Parent = creditosFrame
+
+-- Función rápida para crear botones de créditos
+local function CrearBoton(nombre, link, posY)
+    local boton = Instance.new("TextButton")
+    boton.Text = nombre
+    boton.Size = UDim2.new(0.8, 0, 0, 40)
+    boton.Position = UDim2.new(0.1, 0, 0, posY)
+    boton.BackgroundColor3 = Color3.fromRGB(30,30,30)
+    boton.TextColor3 = Color3.fromRGB(255,255,255)
+    boton.TextSize = 18
+    boton.Font = Enum.Font.SourceSansBold
+    boton.Parent = creditosFrame
+    boton.MouseButton1Click:Connect(function()
+        setclipboard(link)
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "📌 Créditos",
+            Text = "Se copió el link de " .. nombre .. " al portapapeles!",
+            Duration = 3
+        })
+    end)
+end
+-- Botones de redes sociales ✨
+CrearBoton("TikTok", "https://www.tiktok.com/@tuusuario", 60)
+CrearBoton("Instagram", "https://www.instagram.com/tuusuario", 110)
+CrearBoton("GitHub", "https://github.com/Christianxddd", 160)
+CrearBoton("YouTube", "https://www.youtube.com/@tuusuario", 210)
 -- Settings Tab
 local SettingsTab = Window:CreateTab("Settings", nil)
 local SetSection = SettingsTab:CreateSection("Ajustes de Tema / UI")
@@ -643,50 +687,5 @@ GamesTab:CreateButton({
       loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()
    end,
 })
--- 📌 Sección de Créditos
-local creditosFrame = Instance.new("Frame")
-creditosFrame.Name = "CreditosFrame"
-creditosFrame.Size = UDim2.new(1, 0, 1, 0)
-creditosFrame.BackgroundTransparency = 1
-creditosFrame.Visible = false
-creditosFrame.Parent = panelFrame
-
--- Título
-local title = Instance.new("TextLabel")
-title.Text = "✨ Créditos ✨"
-title.Size = UDim2.new(1, 0, 0, 40)
-title.Position = UDim2.new(0, 0, 0, 10)
-title.TextColor3 = Color3.fromRGB(255,255,255)
-title.TextSize = 22
-title.Font = Enum.Font.SourceSansBold
-title.BackgroundTransparency = 1
-title.Parent = creditosFrame
-
--- Función rápida para crear botones de créditos
-local function CrearBoton(nombre, link, posY)
-    local boton = Instance.new("TextButton")
-    boton.Text = nombre
-    boton.Size = UDim2.new(0.8, 0, 0, 40)
-    boton.Position = UDim2.new(0.1, 0, 0, posY)
-    boton.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    boton.TextColor3 = Color3.fromRGB(255,255,255)
-    boton.TextSize = 18
-    boton.Font = Enum.Font.SourceSansBold
-    boton.Parent = creditosFrame
-    boton.MouseButton1Click:Connect(function()
-        setclipboard(link)
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "📌 Créditos",
-            Text = "Se copió el link de " .. nombre .. " al portapapeles!",
-            Duration = 3
-        })
-    end)
-end
-
--- Botones de redes sociales ✨
-CrearBoton("TikTok", "https://www.tiktok.com/@tuusuario", 60)
-CrearBoton("Instagram", "https://www.instagram.com/tuusuario", 110)
-CrearBoton("GitHub", "https://github.com/Christianxddd", 160)
-CrearBoton("YouTube", "https://www.youtube.com/@tuusuario", 210)
 
 print("XRNL HUB cargado con pestañas adicionales (móvil/PC)")
