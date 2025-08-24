@@ -4,7 +4,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "XRNL HUB",
+   Name = "XRNLHUB-By Christian Sebastian",
    LoadingTitle = "XRNL Loader",
    LoadingSubtitle = "Mobile & PC Compatible",
    ConfigurationSaving = {
@@ -160,7 +160,150 @@ SettingsTab:CreateKeybind({
       Rayfield:ToggleUI()
    end,
 })
+-- Troll Tab
+local TrollTab = Window:CreateTab("Troll", nil)
+local TrollSection = TrollTab:CreateSection("Scripts de Broma / Troll")
 
+-- 1. Cambio de color loco
+TrollTab:CreateButton({
+    Name = "Cambio de color loco",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character then
+            for _, part in ipairs(plr.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Color = Color3.new(math.random(), math.random(), math.random())
+                end
+            end
+        end
+    end
+})
+
+-- 2. Super Jump Troll
+TrollTab:CreateButton({
+    Name = "Super Jump Troll",
+    Callback = function()
+        local hum = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if hum then
+            local original = hum.JumpPower
+            hum.JumpPower = 500
+            wait(3)
+            hum.JumpPower = original
+        end
+    end
+})
+
+-- 3. Spam de broma
+TrollTab:CreateButton({
+    Name = "Spam Troll Chat",
+    Callback = function()
+        for i = 1,5 do
+            game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Troll XD!", "All")
+            wait(0.5)
+        end
+    end
+})
+
+-- 4. Teleport Aleatorio
+TrollTab:CreateButton({
+    Name = "Teleport Aleatorio",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            plr.Character.HumanoidRootPart.CFrame = CFrame.new(math.random(-500,500),50,math.random(-500,500))
+        end
+    end
+})
+
+-- 5. Crecimiento Loco
+TrollTab:CreateButton({
+    Name = "Crecimiento Loco",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character then
+            for _, part in ipairs(plr.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Size = part.Size * math.random(1,3)
+                end
+            end
+        end
+    end
+})
+
+-- 6. Mini Personaje
+TrollTab:CreateButton({
+    Name = "Encoger Personaje",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character then
+            for _, part in ipairs(plr.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Size = part.Size * 0.5
+                end
+            end
+        end
+    end
+})
+
+-- 7. Personaje Gigante
+TrollTab:CreateButton({
+    Name = "Gigante Troll",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character then
+            for _, part in ipairs(plr.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Size = part.Size * 3
+                end
+            end
+        end
+    end
+})
+
+-- 8. Giro Loco
+TrollTab:CreateButton({
+    Name = "Giro Loco",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame * CFrame.Angles(0,math.rad(180),0)
+        end
+    end
+})
+
+-- 9. Volar Troll
+TrollTab:CreateButton({
+    Name = "Volar Troll",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character and plr.Character:FindFirstChild("Humanoid") then
+            local hum = plr.Character.Humanoid
+            hum.PlatformStand = true
+            plr.Character.HumanoidRootPart.Velocity = Vector3.new(0,100,0)
+            wait(2)
+            hum.PlatformStand = false
+        end
+    end
+})
+
+-- 10. Explosion de bromas
+TrollTab:CreateButton({
+    Name = "Explosión Troll",
+    Callback = function()
+        local plr = game.Players.LocalPlayer
+        if plr.Character then
+            for _, part in ipairs(plr.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    local explosion = Instance.new("Explosion")
+                    explosion.Position = part.Position
+                    explosion.BlastRadius = 5
+                    explosion.BlastPressure = 0
+                    explosion.Parent = workspace
+                end
+            end
+        end
+    end
+})
 -- Juegos Tab
 local GamesTab = Window:CreateTab("Juegos", nil)
 local GameSection = GamesTab:CreateSection("Scripts Populares")
