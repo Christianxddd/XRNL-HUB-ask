@@ -137,7 +137,162 @@ FuncTab:CreateSlider({
       end
    end,
 })
+-- Steal a Brainlot Tab
+local BrainlotTab = Window:CreateTab("Steal a Brainlot", nil)
+local BrainlotSection = BrainlotTab:CreateSection("Scripts para Steal a Brainlot")
 
+-- Variables generales
+local plr = game.Players.LocalPlayer
+local char = plr.Character or plr.CharacterAdded:Wait()
+local hum = char:WaitForChild("Humanoid")
+
+-- 1. Infinite Jump
+BrainlotTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "InfiniteJumpToggle",
+    Callback = function(Value)
+        if Value then
+            _G.InfJumpEnabled = true
+            game:GetService("UserInputService").JumpRequest:Connect(function()
+                if _G.InfJumpEnabled then
+                    hum:ChangeState(Enum.HumanoidStateType.Jumping)
+                end
+            end)
+        else
+            _G.InfJumpEnabled = false
+        end
+    end
+})
+
+-- 2. Super WalkSpeed (sin ser detectado fácilmente)
+BrainlotTab:CreateSlider({
+    Name = "Velocidad Rápida",
+    Range = {16, 250},
+    Increment = 5,
+    Suffix = "WS",
+    CurrentValue = 16,
+    Flag = "SuperSpeedSlider",
+    Callback = function(Value)
+        hum.WalkSpeed = Value
+    end
+})
+
+-- 3. Super Jump Power
+BrainlotTab:CreateSlider({
+    Name = "Salto Alto",
+    Range = {50, 250},
+    Increment = 5,
+    Suffix = "JP",
+    CurrentValue = 50,
+    Flag = "SuperJumpSlider",
+    Callback = function(Value)
+        hum.JumpPower = Value
+    end
+})
+
+-- 4. ESP Jugadores
+local espEnabled = false
+BrainlotTab:CreateToggle({
+    Name = "ESP Players",
+    CurrentValue = false,
+    Flag = "ESPPlayersToggle",
+    Callback = function(Value)
+        espEnabled = Value
+        for _, p in pairs(game.Players:GetPlayers()) do
+            if p ~= plr and p.Character and p.Character:FindFirstChild("Head") then
+                if Value then
+                    if not p.Character:FindFirstChild("XRNL_ESP") then
+                        local billboard = Instance.new("BillboardGui")
+                        billboard.Name = "XRNL_ESP"
+                        billboard.Adornee = p.Character.Head
+                        billboard.Size = UDim2.new(0,100,0,50)
+                        billboard.AlwaysOnTop = true
+                        local label = Instance.new("TextLabel")
+                        label.Parent = billboard
+                        label.Size = UDim2.new(1,0,1,0)
+                        label.BackgroundTransparency = 1
+                        label.Text = p.Name
+                        label.TextColor3 = Color3.new(1,0,0)
+                        label.TextStrokeTransparency = 0
+                        billboard.Parent = p.Character.Head
+                    end
+                else
+                    if p.Character.Head:FindFirstChild("XRNL_ESP") then
+                        p.Character.Head.XRNL_ESP:Destroy()
+                    end
+                end
+            end
+        end
+    end
+})
+
+-- 5. ESP Base / Objetos
+BrainlotTab:CreateToggle({
+    Name = "ESP Base/Objetos",
+    CurrentValue = false,
+    Flag = "ESPBaseToggle",
+    Callback = function(Value)
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Part") and obj.Name:match("Base") then
+                if Value then
+                    if not obj:FindFirstChild("XRNL_ESP") then
+                        local billboard = Instance.new("BillboardGui")
+                        billboard.Name = "XRNL_ESP"
+                        billboard.Adornee = obj
+                        billboard.Size = UDim2.new(0,100,0,50)
+                        billboard.AlwaysOnTop = true
+                        local label = Instance.new("TextLabel")
+                        label.Parent = billboard
+                        label.Size = UDim2.new(1,0,1,0)
+                        label.BackgroundTransparency = 1
+                        label.Text = obj.Name
+                        label.TextColor3 = Color3.new(0,1,0)
+                        label.TextStrokeTransparency = 0
+                        billboard.Parent = obj
+                    end
+                else
+                    if obj:FindFirstChild("XRNL_ESP") then
+                        obj.XRNL_ESP:Destroy()
+                    end
+                end
+            end
+        end
+    end
+})
+
+-- 6. Velocidad con Brainlot
+BrainlotTab:CreateToggle({
+    Name = "Correr rápido con Brainlot",
+    CurrentValue = false,
+    Flag = "RunWithBrainlot",
+    Callback = function(Value)
+        spawn(function()
+            while Value and hum and hum.Parent do
+                local hasBrainlot = plr.Backpack:FindFirstChild("Brainlot") or plr.Character:FindFirstChild("Brainlot")
+                if hasBrainlot then
+                    hum.WalkSpeed = 100
+                else
+                    hum.WalkSpeed = 16
+                end
+                wait(0.1)
+            end
+        end)
+    end
+})
+
+-- 7. Teleport Guiado
+BrainlotTab:CreateButton({
+    Name = "TeleGuiado al Brainlot",
+    Callback = function()
+        local brainlot = workspace:FindFirstChild("Brainlot")
+        if brainlot and char:FindFirstChild("HumanoidRootPart") then
+            char.HumanoidRootPart.CFrame = brainlot.CFrame + Vector3.new(0,5,0)
+        end
+    end
+})
+
+print("Steal a Brainlot Tab cargada en XRNL HUB")
 -- Settings Tab
 local SettingsTab = Window:CreateTab("Settings", nil)
 local SetSection = SettingsTab:CreateSection("Ajustes de Tema / UI")
