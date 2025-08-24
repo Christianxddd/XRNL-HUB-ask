@@ -30,10 +30,10 @@ local Window = Rayfield:CreateWindow({
 })
 
 -- Main Tab
-local HomeTab = Window:CreateTab("Home", nil)
-local HomeSection = MainTab:CreateSection("Home")
+local MainTab = Window:CreateTab("Main", nil)
+local MainSection = MainTab:CreateSection("Main")
 
-HomeTab:CreateButton({
+MainTab:CreateButton({
    Name = "Finish All (Obby)",
    Callback = function()
       local plr = game.Players.LocalPlayer
@@ -43,7 +43,7 @@ HomeTab:CreateButton({
    end
 })
 
-HomeTab:CreateButton({
+MainTab:CreateButton({
    Name = "Destroy GUI",
    Callback = function()
       Rayfield:Destroy()
