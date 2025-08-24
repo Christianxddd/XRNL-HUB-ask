@@ -173,10 +173,49 @@ GamesTab:CreateButton({
 })
 
 GamesTab:CreateButton({
-   Name = "Fly Script",
+   Name = "Fly v3",
    Callback = function()
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/BlueDuckYT7/Fly-GUI/main/FlyGUI"))()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
    end,
 })
 
+GamesTab:CreateButton({
+   Name = "INK GAMES",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua"))()
+   end,
+})
+
+GamesTab:CreateButton({
+   Name = "Blue Lock Rivals",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/XZuuyaX/XZuyaX-s-Hub/refs/heads/main/Main.Lua", true))()
+   end,
+})
+
+GamesTab:CreateButton({
+   Name = "Sin cooldown Blue lock",
+   Callback = function()
+      local C = require(game:GetService("ReplicatedStorage").Controllers.AbilityController)
+local o = C.AbilityCooldown
+
+C.AbilityCooldown = function(s, n, ...)
+    return o(s, n, 0, ...)
+end
+   end,
+})
+
+GamesTab:CreateButton({
+   Name = "Teleport",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Christianxddd/TELEPORT/1bb8e93b66b1a15ada295b5d3e4bcda8f888dda7/main.lua"))()
+   end,
+})
+
+GamesTab:CreateButton({
+   Name = "Roba un brainlot",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()
+   end,
+})
 print("XRNL HUB cargado con pestañas adicionales (móvil/PC)")
