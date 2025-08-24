@@ -137,162 +137,145 @@ FuncTab:CreateSlider({
       end
    end,
 })
--- Steal a Brainlot Tab
-local BrainlotTab = Window:CreateTab("Steal a Brainlot", nil)
-local BrainlotSection = BrainlotTab:CreateSection("Scripts para Steal a Brainlot")
-
--- Variables generales
-local plr = game.Players.LocalPlayer
-local char = plr.Character or plr.CharacterAdded:Wait()
-local hum = char:WaitForChild("Humanoid")
-
--- 1. Infinite Jump
-BrainlotTab:CreateToggle({
-    Name = "Infinite Jump",
+-- Plataforma Ascendente Mejorada (Funciona mejor y sigue al jugador)
+FuncTab:CreateToggle({
+    Name = "Plataforma Ascendente Mejorada",
     CurrentValue = false,
-    Flag = "InfiniteJumpToggle",
-    Callback = function(Value)
-        if Value then
-            _G.InfJumpEnabled = true
-            game:GetService("UserInputService").JumpRequest:Connect(function()
-                if _G.InfJumpEnabled then
-                    hum:ChangeState(Enum.HumanoidStateType.Jumping)
-                end
-            end)
-        else
-            _G.InfJumpEnabled = false
+    Flag = "ImprovedAscendingPlatform",
+    Callback = function(active)
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local plr = Players.LocalPlayer
+        if not plr then return end
+
+        -- Estado global para evitar múltiples instancias
+        _G.XRNL_PlatformActive = _G.XRNL_PlatformActive or false
+        if active == _G.XRNL_PlatformActive then return end
+        _G.XRNL_PlatformActive = active
+
+        -- Cleanup helper
+        local function cleanup()
+            if _G.XRNL_PlatformLoop then _G.XRNL_PlatformLoop:Disconnect() _G.XRNL_PlatformLoop = nil end
+            if _G.XRNL_TargetPart and _G.XRNL_TargetPart.Parent then _G.XRNL_TargetPart:Destroy() end
+            if _G.XRNL_PlatformPart and _G.XRNL_PlatformPart.Parent then _G.XRNL_PlatformPart:Destroy() end
+            _G.XRNL_TargetPart = nil
+            _G.XRNL_PlatformPart = nil
+            _G.XRNL_PlatformLoop = nil
         end
-    end
-})
 
--- 2. Super WalkSpeed (sin ser detectado fácilmente)
-BrainlotTab:CreateSlider({
-    Name = "Velocidad Rápida",
-    Range = {16, 250},
-    Increment = 5,
-    Suffix = "WS",
-    CurrentValue = 16,
-    Flag = "SuperSpeedSlider",
-    Callback = function(Value)
-        hum.WalkSpeed = Value
-    end
-})
-
--- 3. Super Jump Power
-BrainlotTab:CreateSlider({
-    Name = "Salto Alto",
-    Range = {50, 250},
-    Increment = 5,
-    Suffix = "JP",
-    CurrentValue = 50,
-    Flag = "SuperJumpSlider",
-    Callback = function(Value)
-        hum.JumpPower = Value
-    end
-})
-
--- 4. ESP Jugadores
-local espEnabled = false
-BrainlotTab:CreateToggle({
-    Name = "ESP Players",
-    CurrentValue = false,
-    Flag = "ESPPlayersToggle",
-    Callback = function(Value)
-        espEnabled = Value
-        for _, p in pairs(game.Players:GetPlayers()) do
-            if p ~= plr and p.Character and p.Character:FindFirstChild("Head") then
-                if Value then
-                    if not p.Character:FindFirstChild("XRNL_ESP") then
-                        local billboard = Instance.new("BillboardGui")
-                        billboard.Name = "XRNL_ESP"
-                        billboard.Adornee = p.Character.Head
-                        billboard.Size = UDim2.new(0,100,0,50)
-                        billboard.AlwaysOnTop = true
-                        local label = Instance.new("TextLabel")
-                        label.Parent = billboard
-                        label.Size = UDim2.new(1,0,1,0)
-                        label.BackgroundTransparency = 1
-                        label.Text = p.Name
-                        label.TextColor3 = Color3.new(1,0,0)
-                        label.TextStrokeTransparency = 0
-                        billboard.Parent = p.Character.Head
-                    end
-                else
-                    if p.Character.Head:FindFirstChild("XRNL_ESP") then
-                        p.Character.Head.XRNL_ESP:Destroy()
-                    end
-                end
-            end
+        if not active then
+            cleanup()
+            return
         end
-    end
-})
 
--- 5. ESP Base / Objetos
-BrainlotTab:CreateToggle({
-    Name = "ESP Base/Objetos",
-    CurrentValue = false,
-    Flag = "ESPBaseToggle",
-    Callback = function(Value)
-        for _, obj in pairs(workspace:GetChildren()) do
-            if obj:IsA("Part") and obj.Name:match("Base") then
-                if Value then
-                    if not obj:FindFirstChild("XRNL_ESP") then
-                        local billboard = Instance.new("BillboardGui")
-                        billboard.Name = "XRNL_ESP"
-                        billboard.Adornee = obj
-                        billboard.Size = UDim2.new(0,100,0,50)
-                        billboard.AlwaysOnTop = true
-                        local label = Instance.new("TextLabel")
-                        label.Parent = billboard
-                        label.Size = UDim2.new(1,0,1,0)
-                        label.BackgroundTransparency = 1
-                        label.Text = obj.Name
-                        label.TextColor3 = Color3.new(0,1,0)
-                        label.TextStrokeTransparency = 0
-                        billboard.Parent = obj
-                    end
-                else
-                    if obj:FindFirstChild("XRNL_ESP") then
-                        obj.XRNL_ESP:Destroy()
-                    end
-                end
-            end
+        -- Esperar al character/humanoid
+        local char = plr.Character or plr.CharacterAdded:Wait()
+        local hrp = char:WaitForChild("HumanoidRootPart", 5)
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hrp or not hum then
+            warn("No HumanoidRootPart/hum encontrado")
+            cleanup()
+            return
         end
-    end
-})
 
--- 6. Velocidad con Brainlot
-BrainlotTab:CreateToggle({
-    Name = "Correr rápido con Brainlot",
-    CurrentValue = false,
-    Flag = "RunWithBrainlot",
-    Callback = function(Value)
-        spawn(function()
-            while Value and hum and hum.Parent do
-                local hasBrainlot = plr.Backpack:FindFirstChild("Brainlot") or plr.Character:FindFirstChild("Brainlot")
-                if hasBrainlot then
-                    hum.WalkSpeed = 100
-                else
-                    hum.WalkSpeed = 16
-                end
-                wait(0.1)
+        -- Evitar duplicados si ya existe
+        if workspace:FindFirstChild("XRNL_PlatformPart") or workspace:FindFirstChild("XRNL_TargetPart") then
+            -- destruir viejas si están huérfanas
+            if workspace:FindFirstChild("XRNL_PlatformPart") then workspace.XRNL_PlatformPart:Destroy() end
+            if workspace:FindFirstChild("XRNL_TargetPart") then workspace.XRNL_TargetPart:Destroy() end
+        end
+
+        -- Crear plataforma
+        local platform = Instance.new("Part")
+        platform.Name = "XRNL_PlatformPart"
+        platform.Size = Vector3.new(6, 1, 6)
+        platform.Anchored = false
+        platform.CanCollide = true
+        platform.TopSurface = Enum.SurfaceType.Smooth
+        platform.BottomSurface = Enum.SurfaceType.Smooth
+        platform.Material = Enum.Material.Neon
+        platform.Transparency = 0.1
+        platform.Position = hrp.Position - Vector3.new(0, 2, 0)
+        platform.Parent = workspace
+        _G.XRNL_PlatformPart = platform
+
+        -- Target part (anclado) que indica dónde debe estar la plataforma
+        local target = Instance.new("Part")
+        target.Name = "XRNL_TargetPart"
+        target.Size = Vector3.new(1,1,1)
+        target.Transparency = 1
+        target.Anchored = true
+        target.CanCollide = false
+        target.Position = platform.Position
+        target.Parent = workspace
+        _G.XRNL_TargetPart = target
+
+        -- Attachments
+        local attPlatform = Instance.new("Attachment", platform)
+        attPlatform.Name = "XRNL_Att_Platform"
+        local attTarget = Instance.new("Attachment", target)
+        attTarget.Name = "XRNL_Att_Target"
+
+        -- AlignPosition para mover la plataforma hacia el target suavemente
+        local align = Instance.new("AlignPosition", platform)
+        align.Attachment0 = attPlatform
+        align.Attachment1 = attTarget
+        align.RigidityEnabled = false
+        align.MaxForce = 100000
+        align.Responsiveness = 30 -- ajustar para más o menos 'pegajosidad'
+        align.MaxVelocity = math.huge
+
+        -- Opciones ajustables
+        local baseYOffset = -2            -- altura base debajo del HRP
+        local upwardSpeed = 0.18         -- incremento por frame mientras camina
+        local decaySpeed = 0.25          -- cuánto decae si deja de caminar
+        local maxUpOffset = 40           -- altura máxima adicional
+        local followXZResponsiveness = 30
+
+        local currentUpOffset = 0
+
+        -- Detectar si el jugador está caminando (MoveDirection)
+        local function isWalking()
+            local md = hum.MoveDirection
+            return (md.Magnitude > 0.1)
+        end
+
+        -- Loop principal: actualizar target posicion y subir si camina
+        _G.XRNL_PlatformLoop = RunService.RenderStepped:Connect(function(dt)
+            if not _G.XRNL_PlatformActive then
+                cleanup()
+                return
             end
+
+            -- reconectar hrp/hum si reaparece
+            if not plr.Character or not plr.Character:FindFirstChild("HumanoidRootPart") then
+                -- esperar y continuar
+                return
+            end
+            hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            hum = plr.Character:FindFirstChildOfClass("Humanoid")
+
+            -- si el jugador camina, aumentar offset hasta max
+            if hum and isWalking() then
+                currentUpOffset = math.min(currentUpOffset + upwardSpeed * (dt*60), maxUpOffset)
+            else
+                -- decaer lentamente
+                currentUpOffset = math.max(currentUpOffset - decaySpeed * (dt*60), 0)
+            end
+
+            -- calcular nueva posición objetivo (sigue X/Z del HRP y sube Y según offset)
+            local targetPos = hrp.Position + Vector3.new(0, baseYOffset + currentUpOffset, 0)
+            -- mover el target (anclado): esto le dice a AlignPosition a dónde moverse
+            target.Position = targetPos
         end)
+
+        -- Seguridad: si la plataforma queda fuera o el jugador muere, limpiar
+        hum.Died:Connect(function()
+            cleanup()
+        end)
+
     end
 })
-
--- 7. Teleport Guiado
-BrainlotTab:CreateButton({
-    Name = "TeleGuiado al Brainlot",
-    Callback = function()
-        local brainlot = workspace:FindFirstChild("Brainlot")
-        if brainlot and char:FindFirstChild("HumanoidRootPart") then
-            char.HumanoidRootPart.CFrame = brainlot.CFrame + Vector3.new(0,5,0)
-        end
-    end
-})
-
-print("Steal a Brainlot Tab cargada en XRNL HUB")
 -- Settings Tab
 local SettingsTab = Window:CreateTab("Settings", nil)
 local SetSection = SettingsTab:CreateSection("Ajustes de Tema / UI")
