@@ -30,10 +30,10 @@ local Window = Rayfield:CreateWindow({
 })
 
 -- Main Tab
-local MainTab = Window:CreateTab("Main", nil)
-local MainSection = MainTab:CreateSection("Main")
+local HomeTab = Window:CreateTab("Home", nil)
+local HomeSection = MainTab:CreateSection("Home")
 
-MainTab:CreateButton({
+HomeTab:CreateButton({
    Name = "Finish All (Obby)",
    Callback = function()
       local plr = game.Players.LocalPlayer
@@ -43,7 +43,7 @@ MainTab:CreateButton({
    end
 })
 
-MainTab:CreateButton({
+HomeTab:CreateButton({
    Name = "Destroy GUI",
    Callback = function()
       Rayfield:Destroy()
@@ -95,7 +95,7 @@ local jumpValue = 50
 
 FuncTab:CreateSlider({
    Name = "Velocidad",
-   Range = {16, 200},
+   Range = {16, 999},
    Increment = 1,
    Suffix = "WalkSpeed",
    CurrentValue = 16,
@@ -109,7 +109,7 @@ FuncTab:CreateSlider({
 
 FuncTab:CreateSlider({
    Name = "Salto",
-   Range = {50, 300},
+   Range = {50, 999},
    Increment = 5,
    Suffix = "JumpPower",
    CurrentValue = 50,
