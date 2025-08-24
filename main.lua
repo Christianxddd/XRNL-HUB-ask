@@ -137,145 +137,39 @@ FuncTab:CreateSlider({
       end
    end,
 })
--- Plataforma Ascendente Mejorada (Funciona mejor y sigue al jugador)
+-- Plataforma Caminante (crea una debajo al caminar y elimina la anterior)
 FuncTab:CreateToggle({
-    Name = "Plataforma Ascendente Mejorada",
+    Name = "Plataforma Caminante",
     CurrentValue = false,
-    Flag = "ImprovedAscendingPlatform",
+    Flag = "WalkingPlatform",
     Callback = function(active)
-        local Players = game:GetService("Players")
         local RunService = game:GetService("RunService")
-        local plr = Players.LocalPlayer
-        if not plr then return end
+        local player = game.Players.LocalPlayer
+        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 
-        -- Estado global para evitar múltiples instancias
-        _G.XRNL_PlatformActive = _G.XRNL_PlatformActive or false
-        if active == _G.XRNL_PlatformActive then return end
-        _G.XRNL_PlatformActive = active
+        if not humanoid or not hrp then return end
 
-        -- Cleanup helper
-        local function cleanup()
-            if _G.XRNL_PlatformLoop then _G.XRNL_PlatformLoop:Disconnect() _G.XRNL_PlatformLoop = nil end
-            if _G.XRNL_TargetPart and _G.XRNL_TargetPart.Parent then _G.XRNL_TargetPart:Destroy() end
-            if _G.XRNL_PlatformPart and _G.XRNL_PlatformPart.Parent then _G.XRNL_PlatformPart:Destroy() end
-            _G.XRNL_TargetPart = nil
-            _G.XRNL_PlatformPart = nil
-            _G.XRNL_PlatformLoop = nil
-        end
-
+        _G.XRNL_WalkPlatformActive = active
         if not active then
-            cleanup()
+            if _G.XRNL_WalkPlatformLoop then 
+                _G.XRNL_WalkPlatformLoop:Disconnect() 
+                _G.XRNL_WalkPlatformLoop = nil 
+            end
             return
         end
 
-        -- Esperar al character/humanoid
-        local char = plr.Character or plr.CharacterAdded:Wait()
-        local hrp = char:WaitForChild("HumanoidRootPart", 5)
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        if not hrp or not hum then
-            warn("No HumanoidRootPart/hum encontrado")
-            cleanup()
-            return
-        end
+        local currentPlatform
 
-        -- Evitar duplicados si ya existe
-        if workspace:FindFirstChild("XRNL_PlatformPart") or workspace:FindFirstChild("XRNL_TargetPart") then
-            -- destruir viejas si están huérfanas
-            if workspace:FindFirstChild("XRNL_PlatformPart") then workspace.XRNL_PlatformPart:Destroy() end
-            if workspace:FindFirstChild("XRNL_TargetPart") then workspace.XRNL_TargetPart:Destroy() end
-        end
-
-        -- Crear plataforma
-        local platform = Instance.new("Part")
-        platform.Name = "XRNL_PlatformPart"
-        platform.Size = Vector3.new(6, 1, 6)
-        platform.Anchored = false
-        platform.CanCollide = true
-        platform.TopSurface = Enum.SurfaceType.Smooth
-        platform.BottomSurface = Enum.SurfaceType.Smooth
-        platform.Material = Enum.Material.Neon
-        platform.Transparency = 0.1
-        platform.Position = hrp.Position - Vector3.new(0, 2, 0)
-        platform.Parent = workspace
-        _G.XRNL_PlatformPart = platform
-
-        -- Target part (anclado) que indica dónde debe estar la plataforma
-        local target = Instance.new("Part")
-        target.Name = "XRNL_TargetPart"
-        target.Size = Vector3.new(1,1,1)
-        target.Transparency = 1
-        target.Anchored = true
-        target.CanCollide = false
-        target.Position = platform.Position
-        target.Parent = workspace
-        _G.XRNL_TargetPart = target
-
-        -- Attachments
-        local attPlatform = Instance.new("Attachment", platform)
-        attPlatform.Name = "XRNL_Att_Platform"
-        local attTarget = Instance.new("Attachment", target)
-        attTarget.Name = "XRNL_Att_Target"
-
-        -- AlignPosition para mover la plataforma hacia el target suavemente
-        local align = Instance.new("AlignPosition", platform)
-        align.Attachment0 = attPlatform
-        align.Attachment1 = attTarget
-        align.RigidityEnabled = false
-        align.MaxForce = 100000
-        align.Responsiveness = 30 -- ajustar para más o menos 'pegajosidad'
-        align.MaxVelocity = math.huge
-
-        -- Opciones ajustables
-        local baseYOffset = -2            -- altura base debajo del HRP
-        local upwardSpeed = 0.18         -- incremento por frame mientras camina
-        local decaySpeed = 0.25          -- cuánto decae si deja de caminar
-        local maxUpOffset = 40           -- altura máxima adicional
-        local followXZResponsiveness = 30
-
-        local currentUpOffset = 0
-
-        -- Detectar si el jugador está caminando (MoveDirection)
-        local function isWalking()
-            local md = hum.MoveDirection
-            return (md.Magnitude > 0.1)
-        end
-
-        -- Loop principal: actualizar target posicion y subir si camina
-        _G.XRNL_PlatformLoop = RunService.RenderStepped:Connect(function(dt)
-            if not _G.XRNL_PlatformActive then
-                cleanup()
-                return
-            end
-
-            -- reconectar hrp/hum si reaparece
-            if not plr.Character or not plr.Character:FindFirstChild("HumanoidRootPart") then
-                -- esperar y continuar
-                return
-            end
-            hrp = plr.Character:FindFirstChild("HumanoidRootPart")
-            hum = plr.Character:FindFirstChildOfClass("Humanoid")
-
-            -- si el jugador camina, aumentar offset hasta max
-            if hum and isWalking() then
-                currentUpOffset = math.min(currentUpOffset + upwardSpeed * (dt*60), maxUpOffset)
-            else
-                -- decaer lentamente
-                currentUpOffset = math.max(currentUpOffset - decaySpeed * (dt*60), 0)
-            end
-
-            -- calcular nueva posición objetivo (sigue X/Z del HRP y sube Y según offset)
-            local targetPos = hrp.Position + Vector3.new(0, baseYOffset + currentUpOffset, 0)
-            -- mover el target (anclado): esto le dice a AlignPosition a dónde moverse
-            target.Position = targetPos
-        end)
-
-        -- Seguridad: si la plataforma queda fuera o el jugador muere, limpiar
-        hum.Died:Connect(function()
-            cleanup()
-        end)
-
-    end
-})
+        _G.XRNL_WalkPlatformLoop = RunService.RenderStepped:Connect(function()
+            if not _G.XRNL_WalkPlatformActive then return end
+            if humanoid.MoveDirection.Magnitude > 0 then
+                -- Borrar plataforma anterior
+                if currentPlatform and currentPlatform.Parent then
+                    currentPlatform:Destroy()
+                end
+                -- Crear nueva plataforma
+                local p = Instance.new("Part")
 -- Settings Tab
 local SettingsTab = Window:CreateTab("Settings", nil)
 local SetSection = SettingsTab:CreateSection("Ajustes de Tema / UI")
