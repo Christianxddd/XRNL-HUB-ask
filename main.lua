@@ -137,6 +137,289 @@ FuncTab:CreateSlider({
       end
    end,
 })
+-- 🟦 Pestaña Blox Fruits | XRNL HUB 🟦
+local BloxFruitsTab = Instance.new("Frame")
+BloxFruitsTab.Name = "BloxFruitsTab"
+BloxFruitsTab.Size = UDim2.new(1,0,1,0)
+BloxFruitsTab.BackgroundTransparency = 1
+BloxFruitsTab.Visible = false
+BloxFruitsTab.Parent = MainContent -- Aquí va dentro de tu contenedor de secciones
+
+-- Título
+local Title = Instance.new("TextLabel", BloxFruitsTab)
+Title.Text = "⚔️ Blox Fruits - Scripts Populares ⚔️"
+Title.Size = UDim2.new(1, -20, 0, 40)
+Title.Position = UDim2.new(0,10,0,10)
+Title.BackgroundTransparency = 1
+Title.TextScaled = true
+Title.TextColor3 = Color3.fromRGB(0,200,255)
+Title.Font = Enum.Font.FredokaOne
+
+-- Botón 1: Auto Farm
+local AutoFarm = Instance.new("TextButton", BloxFruitsTab)
+AutoFarm.Text = "🌌 Auto Farm"
+AutoFarm.Size = UDim2.new(0, 200, 0, 40)
+AutoFarm.Position = UDim2.new(0,20,0,60)
+AutoFarm.BackgroundColor3 = Color3.fromRGB(30,30,30)
+AutoFarm.TextColor3 = Color3.fromRGB(255,255,255)
+AutoFarm.Font = Enum.Font.GothamBold
+AutoFarm.TextSize = 16
+AutoFarm.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/xQuartyx/DonateMe/main/NEWBF"))()
+end)
+
+-- Botón 2: ESP Players
+local ESP = Instance.new("TextButton", BloxFruitsTab)
+ESP.Text = "👁 ESP Players"
+ESP.Size = UDim2.new(0, 200, 0, 40)
+ESP.Position = UDim2.new(0,20,0,110)
+ESP.BackgroundColor3 = Color3.fromRGB(30,30,30)
+ESP.TextColor3 = Color3.fromRGB(255,255,255)
+ESP.Font = Enum.Font.GothamBold
+ESP.TextSize = 16
+ESP.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZaqueHub/BF/main/ESP"))()
+end)
+
+-- Botón 3: Fruit Sniper
+local FruitSniper = Instance.new("TextButton", BloxFruitsTab)
+FruitSniper.Text = "🍇 Fruit Sniper"
+FruitSniper.Size = UDim2.new(0, 200, 0, 40)
+FruitSniper.Position = UDim2.new(0,20,0,160)
+FruitSniper.BackgroundColor3 = Color3.fromRGB(30,30,30)
+FruitSniper.TextColor3 = Color3.fromRGB(255,255,255)
+FruitSniper.Font = Enum.Font.GothamBold
+FruitSniper.TextSize = 16
+FruitSniper.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/SHAREHACK/script/main/BF-FruitSniper"))()
+end)
+
+-- Botón 4: Teleport Island
+local TeleportIslands = Instance.new("TextButton", BloxFruitsTab)
+TeleportIslands.Text = "🛶 Teleport Islas"
+TeleportIslands.Size = UDim2.new(0, 200, 0, 40)
+TeleportIslands.Position = UDim2.new(0,20,0,210)
+TeleportIslands.BackgroundColor3 = Color3.fromRGB(30,30,30)
+TeleportIslands.TextColor3 = Color3.fromRGB(255,255,255)
+TeleportIslands.Font = Enum.Font.GothamBold
+TeleportIslands.TextSize = 16
+TeleportIslands.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/SypherPKScripts/BF-Teleport/main/Islands"))()
+end)
+
+-- Botón 5: Kill Aura
+local KillAura = Instance.new("TextButton", BloxFruitsTab)
+KillAura.Text = "💥 Kill Aura"
+KillAura.Size = UDim2.new(0, 200, 0, 40)
+KillAura.Position = UDim2.new(0,20,0,260)
+KillAura.BackgroundColor3 = Color3.fromRGB(30,30,30)
+KillAura.TextColor3 = Color3.fromRGB(255,255,255)
+KillAura.Font = Enum.Font.GothamBold
+KillAura.TextSize = 16
+KillAura.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/BF-Scripts/KillAura/main/script"))()
+end)
+
+-- 📌 Botón en el menú para abrir esta pestaña
+local BloxButton = Instance.new("TextButton", SideMenu)
+BloxButton.Text = "⚔️ Blox Fruits"
+BloxButton.Size = UDim2.new(1,0,0,40)
+BloxButton.BackgroundColor3 = Color3.fromRGB(50,50,50)
+BloxButton.TextColor3 = Color3.fromRGB(0,255,200)
+BloxButton.Font = Enum.Font.GothamBold
+BloxButton.TextSize = 16
+BloxButton.MouseButton1Click:Connect(function()
+    for _,tab in pairs(MainContent:GetChildren()) do
+        if tab:IsA("Frame") then
+            tab.Visible = false
+        end
+    end
+    BloxFruitsTab.Visible = true
+end)
+--// XRNL HUB - Jailbreak Tab //--
+
+local jailbreakTab = Instance.new("Frame")
+jailbreakTab.Name = "JailbreakTab"
+jailbreakTab.Size = UDim2.new(0, 350, 0, 300)
+jailbreakTab.Position = UDim2.new(0.5, -175, 0.5, -150)
+jailbreakTab.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+jailbreakTab.BorderSizePixel = 0
+jailbreakTab.Visible = false
+jailbreakTab.Parent = mainFrame
+
+-- Título
+local jailTitle = Instance.new("TextLabel", jailbreakTab)
+jailTitle.Size = UDim2.new(1, 0, 0, 30)
+jailTitle.BackgroundTransparency = 1
+jailTitle.Text = "🚔 XRNL HUB - Jailbreak"
+jailTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+jailTitle.TextSize = 20
+jailTitle.Font = Enum.Font.GothamBold
+
+-- Botón: Auto Rob
+local autoRobBtn = Instance.new("TextButton", jailbreakTab)
+autoRobBtn.Size = UDim2.new(1, -20, 0, 40)
+autoRobBtn.Position = UDim2.new(0, 10, 0, 50)
+autoRobBtn.Text = "💰 Auto Rob"
+autoRobBtn.TextColor3 = Color3.fromRGB(255,255,255)
+autoRobBtn.TextSize = 18
+autoRobBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+autoRobBtn.Font = Enum.Font.GothamBold
+
+autoRobBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/regularsteve1234/AutoRobJailbreak/main/AutoRob.lua"))()
+end)
+
+-- Botón: Kill Aura
+local killAuraBtn = Instance.new("TextButton", jailbreakTab)
+killAuraBtn.Size = UDim2.new(1, -20, 0, 40)
+killAuraBtn.Position = UDim2.new(0, 10, 0, 100)
+killAuraBtn.Text = "⚔️ Kill Aura"
+killAuraBtn.TextColor3 = Color3.fromRGB(255,255,255)
+killAuraBtn.TextSize = 18
+killAuraBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+killAuraBtn.Font = Enum.Font.GothamBold
+
+killAuraBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ByD3v/Jailbreak-KillAura/main/script.lua"))()
+end)
+
+-- Botón: Walkspeed Hack
+local speedBtn = Instance.new("TextButton", jailbreakTab)
+speedBtn.Size = UDim2.new(1, -20, 0, 40)
+speedBtn.Position = UDim2.new(0, 10, 0, 150)
+speedBtn.Text = "⚡ WalkSpeed Hack"
+speedBtn.TextColor3 = Color3.fromRGB(255,255,255)
+speedBtn.TextSize = 18
+speedBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+speedBtn.Font = Enum.Font.GothamBold
+
+speedBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularSteve1234/JailbreakSpeedHack/main/SpeedHack.lua"))()
+end)
+
+-- Botón: Teleport a Base Criminal
+local tpBaseBtn = Instance.new("TextButton", jailbreakTab)
+tpBaseBtn.Size = UDim2.new(1, -20, 0, 40)
+tpBaseBtn.Position = UDim2.new(0, 10, 0, 200)
+tpBaseBtn.Text = "🚨 Teleport Base Criminal"
+tpBaseBtn.TextColor3 = Color3.fromRGB(255,255,255)
+tpBaseBtn.TextSize = 18
+tpBaseBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+tpBaseBtn.Font = Enum.Font.GothamBold
+
+tpBaseBtn.MouseButton1Click:Connect(function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(214.32, 17.72, 1085.66) -- Coordenadas base criminal
+end)
+
+-- Función para mostrar pestaña Jailbreak
+function showJailbreakTab()
+    hideAllTabs()
+    jailbreakTab.Visible = true
+end
+--// Pestaña Brookhaven 🏡RP
+local BrookhavenTab = PopularSection:CreateTab("Brookhaven 🏡RP")
+
+BrookhavenTab:CreateButton("Brookhaven GUI", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptpastebin/raw/main/Brookhaven"))()
+end)
+
+BrookhavenTab:CreateButton("Brookhaven Admin", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/GEpG2vsN"))()
+end)
+
+BrookhavenTab:CreateButton("Brookhaven Troll", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Kiroftt/RobloxScripts/main/BrookhavenTroll.lua"))()
+end)
+
+BrookhavenTab:CreateButton("Brookhaven Fly", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/YJMz7s3Y"))()
+end)
+-- Pestaña Murder Mystery 2
+local mm2Frame = Instance.new("Frame")
+mm2Frame.Name = "MM2Frame"
+mm2Frame.Size = UDim2.new(0, 350, 0, 320)
+mm2Frame.Position = UDim2.new(0.5, -175, 0.5, -160)
+mm2Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mm2Frame.Visible = false
+mm2Frame.Parent = screenGui
+table.insert(pestanas, mm2Frame)
+
+local mm2Title = Instance.new("TextLabel")
+mm2Title.Size = UDim2.new(1, 0, 0, 30)
+mm2Title.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+mm2Title.Text = "Murder Mystery 2 - XRNL HUB"
+mm2Title.TextColor3 = Color3.new(1, 1, 1)
+mm2Title.Font = Enum.Font.GothamBold
+mm2Title.TextSize = 16
+mm2Title.Parent = mm2Frame
+
+-- Botón ESP Jugadores
+crearBoton("ESP Players", mm2Frame, function()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer then
+            local highlight = Instance.new("Highlight")
+            highlight.Parent = player.Character
+            highlight.FillColor = Color3.fromRGB(0, 255, 0)
+        end
+    end
+end)
+
+-- Botón Auto Collect Coins
+crearBoton("Auto Collect Coins", mm2Frame, function()
+    spawn(function()
+        while task.wait(0.5) do
+            pcall(function()
+                for _, coin in pairs(workspace:GetChildren()) do
+                    if coin.Name == "Coin" then
+                        coin.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+-- Botón Knife Reach
+crearBoton("Knife Reach", mm2Frame, function()
+    local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    if tool then
+        tool.Handle.Size = Vector3.new(10, 10, 10)
+        tool.Handle.Massless = true
+    end
+end)
+
+-- Botón Grab Gun
+crearBoton("Grab Gun", mm2Frame, function()
+    for _, v in pairs(workspace:GetChildren()) do
+        if v.Name == "GunDrop" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+        end
+    end
+end)
+
+-- Botón Kill Aura
+crearBoton("Kill Aura (Sheriff/Murder)", mm2Frame, function()
+    spawn(function()
+        while task.wait(0.3) do
+            pcall(function()
+                local char = game.Players.LocalPlayer.Character
+                local tool = char:FindFirstChildOfClass("Tool")
+                if tool and tool:FindFirstChild("Handle") then
+                    for _, player in pairs(game.Players:GetPlayers()) do
+                        if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                            local hrp = player.Character.HumanoidRootPart
+                            if (char.HumanoidRootPart.Position - hrp.Position).Magnitude < 10 then
+                                firetouchinterest(tool.Handle, hrp, 0)
+                                firetouchinterest(tool.Handle, hrp, 1)
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
 -- Settings Tab
 local SettingsTab = Window:CreateTab("Settings", nil)
 local SetSection = SettingsTab:CreateSection("Ajustes de Tema / UI")
@@ -360,4 +643,50 @@ GamesTab:CreateButton({
       loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()
    end,
 })
+-- 📌 Sección de Créditos
+local creditosFrame = Instance.new("Frame")
+creditosFrame.Name = "CreditosFrame"
+creditosFrame.Size = UDim2.new(1, 0, 1, 0)
+creditosFrame.BackgroundTransparency = 1
+creditosFrame.Visible = false
+creditosFrame.Parent = panelFrame
+
+-- Título
+local title = Instance.new("TextLabel")
+title.Text = "✨ Créditos ✨"
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Position = UDim2.new(0, 0, 0, 10)
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.TextSize = 22
+title.Font = Enum.Font.SourceSansBold
+title.BackgroundTransparency = 1
+title.Parent = creditosFrame
+
+-- Función rápida para crear botones de créditos
+local function CrearBoton(nombre, link, posY)
+    local boton = Instance.new("TextButton")
+    boton.Text = nombre
+    boton.Size = UDim2.new(0.8, 0, 0, 40)
+    boton.Position = UDim2.new(0.1, 0, 0, posY)
+    boton.BackgroundColor3 = Color3.fromRGB(30,30,30)
+    boton.TextColor3 = Color3.fromRGB(255,255,255)
+    boton.TextSize = 18
+    boton.Font = Enum.Font.SourceSansBold
+    boton.Parent = creditosFrame
+    boton.MouseButton1Click:Connect(function()
+        setclipboard(link)
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "📌 Créditos",
+            Text = "Se copió el link de " .. nombre .. " al portapapeles!",
+            Duration = 3
+        })
+    end)
+end
+
+-- Botones de redes sociales ✨
+CrearBoton("TikTok", "https://www.tiktok.com/@tuusuario", 60)
+CrearBoton("Instagram", "https://www.instagram.com/tuusuario", 110)
+CrearBoton("GitHub", "https://github.com/Christianxddd", 160)
+CrearBoton("YouTube", "https://www.youtube.com/@tuusuario", 210)
+
 print("XRNL HUB cargado con pestañas adicionales (móvil/PC)")
